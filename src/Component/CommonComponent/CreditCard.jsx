@@ -8,10 +8,12 @@ const CreditCardContainer = styled.div`
   position: relative;
   height: 260px;
   margin: auto;
-  width: 100%;
+  max-width:370px;
+  width:100%;
   display: flex;
   align-items: flex-end;
   opacity:${(props=>props.isFrozen?'0.7':'1')};
+  padding:5px;
 `;
 const TopCard = styled.div`
   position: absolute;
@@ -19,7 +21,7 @@ const TopCard = styled.div`
   width: 60%;
   padding: 5px 10px;
   background-color: ${color.white};
-  right: 0;
+  right: 6px;
   top: 0;
   border-radius: 4px;
 `;

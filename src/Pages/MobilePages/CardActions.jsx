@@ -47,8 +47,8 @@ const ActionBar = ({handleDelete,isFrozen,handleFrozen})=>{
             <Icon>
               <Image src={el.icon}/>
             </Icon>  
-            <Title active={el.id === 2}>
-              {el.title}
+            <Title>
+              {el.id === 1 && isFrozen?'Unfreeze card':el.title}
             </Title>
           </IconContainer>
         })}
