@@ -5,11 +5,13 @@ import { ActionData } from "../../constant";
 const ActionContainer = styled.div`
 height:116px;
 padding:0px 24px;
-border-radius: 20px 20px 0px 0px;
+border-radius:${props=>props.desktop?'8px': '20px 20px 0px 0px'};
 background-color:${color.lightBlue};
 display:flex;
 flex-flow:row;
 justify-content:space-around;
+max-width:${props=>props.desktop?'370px':'auto'};
+margin: ${props=>props.desktop? '40px auto 0px':'none'};
 `;
 
 const IconContainer = styled.div`
@@ -17,6 +19,7 @@ display:flex;
 flex-flow:column;
 align-items:center;
 justify-content:center;
+cursor:pointer;
 `
 const Icon = styled.div`
 height:32px;
@@ -32,7 +35,7 @@ text-align:center;
 display:inline-block;
 color:${color.darkBlue};
 `
-const ActionBar = ({handleDelete,isFrozen,handleFrozen})=>{
+const ActionBar = ({handleDelete,isFrozen,handleFrozen, isDesktop=false})=>{
  const handleClick = (id)=>{
   if(id === 0){
    handleFrozen();
@@ -41,7 +44,7 @@ const ActionBar = ({handleDelete,isFrozen,handleFrozen})=>{
   }
  }
 
-    return <ActionContainer>
+    return <ActionContainer desktop={isDesktop}>
         {ActionData.map((el,i)=>{
             return <IconContainer key={el.id} onClick={()=>handleClick(i)}>
             <Icon>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { months } from "../../constant";
 import color from "../../colorConstant";
+import { data } from "../../data";
 
 const FormContainer = styled.div`
   border-radius: 5px;
@@ -52,6 +53,7 @@ color:${color.white};\
 border:none;
 margin-left:8px;
 border-radius: 4px;
+cursor:pointer;
 `
 const CancelButton = styled(SubmitButton)`
 background-color:#FF0000;
@@ -60,7 +62,7 @@ const Error = styled.p`
 margin:2px 0px;
 color:#FF0000;
 `;
-const CreditCardForm = ({ handleModalToggle }) => {
+const CreditCardForm = ({ handleModalToggle, submitCardData }) => {
   const [formState, setFormState] = useState({
     firstName: "",
     lastName: "",
@@ -153,8 +155,24 @@ const CreditCardForm = ({ handleModalToggle }) => {
 
   const handleSubmit=()=>{
     const {isFormContainError,errors} =validateForm();
-    console.log(errors);
     setFormErrors(errors);
+    if(isFormContainError){
+        return;
+    }
+    const transaction = data[0].transactions;
+    const creditCardData = {
+        id: Date.now(),
+        firstName:formState.firstName,
+        lastName:formState.lastName,
+        availableAmount: 2500,
+        validThrough:`${formState.expireMonth}/${formState.expireYear}`,
+        cardNumber:formState.cardNumber.split(" ").join("-"),
+        cvv:formState.cvv,
+        transactions:transaction,
+        isFrozen:false,
+    }
+   submitCardData((prev)=>[...prev,creditCardData]);
+   handleModalToggle();
   }
   return (
     <FormContainer>

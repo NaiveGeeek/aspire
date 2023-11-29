@@ -32,6 +32,7 @@ const TopCardButton = styled.button`
   align-items: center;
   width: 100%;
   background-color: transparent;
+  cursor:pointer;
 `;
 const ShowIcon = styled.span`
   width: 16px;

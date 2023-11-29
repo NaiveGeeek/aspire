@@ -112,7 +112,7 @@ const CardPage = () => {
          
         </TopContainer>
         <BottomContainer>
-          <ActionBar handleDelete={handleDelete} handleFrozen={handleFrozen} isFrozen={isFrozen} />
+          <ActionBar handleDelete={handleDelete} handleFrozen={handleFrozen} isFrozen={isFrozen}/>
           <Accordian title={"Card details"} icon={cardDetails}>
             <CardDetails
               firstName={firstName}
@@ -129,7 +129,7 @@ const CardPage = () => {
       </Container>
       <ModalContainer>
       <ReactModal isOpen={isModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={handleModalToggle}>
-        <CreditCardForm handleModalToggle={handleModalToggle} />
+        <CreditCardForm handleModalToggle={handleModalToggle} submitCardData={updateCardData} />
       </ReactModal>
       </ModalContainer>
     </>

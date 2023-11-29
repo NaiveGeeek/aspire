@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import color from "../../colorConstant";
 import plus from "../../assets/plus.svg";
+import wplus from "../../assets/white plus.svg";
 
 const Header = styled.div`
   background-color: transparent;
@@ -15,7 +16,7 @@ const AmountSection = styled.div`
 const AccountBalanceText = styled.span`
   font-size: 14px;
   line-height: 2;
-  color: ${color.white};
+  color: ${props=>props.desktop?color.black:color.white};
   display: inline-block;
   margin-bottom: 10px;
 `;
@@ -42,16 +43,21 @@ const Amount = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${color.white};
+  color: ${props=> props.desktop?color.black:color.white};
 `;
 const Button = styled.button`
-  background-color: transparent;
-  color: #23cefd;
+  background-color: ${props=>props.desktop?color.darkBlue:'transparent'};
+  color: ${props=>props.desktop?color.white:'#23cefd'};
   border: none;
   margin-left: auto;
   display: flex;
   font-size: 14px;
   line-height: 17px;
+  cursor:pointer;
+  border-radius:4px;
+  padding:${props=>props.desktop?'8px 12px':'0px'};
+  height:${props=>props.desktop?'35px':'auto'};
+  width:${props=>props.desktop?'109px':'auto'}
 `;
 const ButtonIcon = styled.span`
   display: flex;
@@ -63,23 +69,23 @@ const Image = styled.img`
   width: 100%;
   height: 100%;
 `;
-const TopBar = ({ amount=0 , handleModalToggle}) => {
+const TopBar = ({ amount=0 , handleModalToggle, isDesktop=false}) => {
   return (
     <Header>
       <AmountSection>
-        <AccountBalanceText>Account balance</AccountBalanceText>
+        <AccountBalanceText desktop={isDesktop}>Account balance</AccountBalanceText>
         <AmountContainer>
           <AccountRectangle>
             <span>S$</span>
           </AccountRectangle>
-          <Amount>
+          <Amount desktop={isDesktop}>
             <span>{Number(amount).toLocaleString()}</span>
           </Amount>
         </AmountContainer>
       </AmountSection>
-      <Button onClick={handleModalToggle}>
+      <Button desktop={isDesktop} onClick={handleModalToggle}>
         <ButtonIcon>
-          <Image src={plus} alt="icon" />
+          <Image src={ isDesktop?wplus:plus} alt="icon" />
         </ButtonIcon>{" "}
         New Card
       </Button>
