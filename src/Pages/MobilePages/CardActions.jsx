@@ -34,6 +34,7 @@ font-size:13px;
 text-align:center;
 display:inline-block;
 color:${color.darkBlue};
+max-width:78px;
 `
 const ActionBar = ({handleDelete,isFrozen,handleFrozen, isDesktop=false})=>{
  const handleClick = (id)=>{

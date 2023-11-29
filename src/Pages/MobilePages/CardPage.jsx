@@ -15,10 +15,11 @@ import ReactModal from "react-modal";
 import CreditCardForm from "../../Component/CommonComponent/CreditCardForm";
 import NavigationBar from "../../Component/MobileComponent/Navigation";
 import Slider from "react-slick";
+import logo from "../../assets/green logo mobile.svg";
 const Container = styled.div`
   position: relative;
   height: 100vh;
-  z-index:0;
+  z-index: 0;
 `;
 
 const TopContainer = styled.div`
@@ -29,7 +30,13 @@ const TopContainer = styled.div`
   top: 0;
   width: 100%;
 `;
-
+const LogoContainer = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 24px;
+  width: 25px;
+  height: 25px;
+`;
 const BottomContainer = styled.div`
   border-radius: 20px 20px 0px 0px;
   width: 100%;
@@ -39,9 +46,13 @@ const BottomContainer = styled.div`
   padding-bottom: 84px;
 `;
 const ModalContainer = styled.div`
-position:relative;
-z-index:3;
-`
+  position: relative;
+  z-index: 3;
+`;
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+`;
 const CardPage = () => {
   const [cardData, updateCardData] = useState(data);
   const [selectedCard, setSelectedCard] = useState(0);
@@ -60,59 +71,79 @@ const CardPage = () => {
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen);
   };
- 
+
   const settings = {
     dots: true,
     infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows:false,
+    arrows: false,
   };
-  const handleDelete = ()=>{
-    if(cardData.length>1){
-    const updatedCardData = cardData.filter((_,i)=>i!==selectedCard);
-    SliderRef.current.slickGoTo(0);
-    setSelectedCard(0);
-    updateCardData(updatedCardData);
-  }}
-  const handleFrozen = ()=>{
-   const updatedCardData = cardData.map((card,i)=>{
-    if(i===selectedCard){
-      card.isFrozen = !card.isFrozen;
+  const handleDelete = () => {
+    if (cardData.length > 1) {
+      const updatedCardData = cardData.filter((_, i) => i !== selectedCard);
+      SliderRef.current.slickGoTo(0);
+      setSelectedCard(0);
+      updateCardData(updatedCardData);
     }
-    return card;
-   });
-   updateCardData(updatedCardData);
-  }
+  };
+  const handleFrozen = () => {
+    const updatedCardData = cardData.map((card, i) => {
+      if (i === selectedCard) {
+        card.isFrozen = !card.isFrozen;
+      }
+      return card;
+    });
+    updateCardData(updatedCardData);
+  };
   return (
     <>
       <Container>
-        <NavigationBar/>
+        <NavigationBar />
         <TopContainer>
+          <LogoContainer>
+            <Image src={logo} alt="logo icon" />
+          </LogoContainer>
           <TopBar
             amount={availableAmount}
             handleModalToggle={handleModalToggle}
           />
           <Tabs />
-          <Slider ref={slider => { SliderRef.current= slider}} {...settings} swipeToSlide={true} swipe={true} afterChange={(e)=>{setSelectedCard(e)}}>
-            {cardData.map((card)=>{
-              const {firstName,lastName,cardNumber,cvv,validThrough} = card;
-              return<CreditCard
-              firstName={firstName}
-              lastName={lastName}
-              cardNumber={cardNumber}
-              cvv={cvv}
-              validThru={validThrough}
-              key={card.id}
-              isFrozen={isFrozen}
-            />
+          <Slider
+            ref={(slider) => {
+              SliderRef.current = slider;
+            }}
+            {...settings}
+            swipeToSlide={true}
+            swipe={true}
+            afterChange={(e) => {
+              setSelectedCard(e);
+            }}
+          >
+            {cardData.map((card) => {
+              const { firstName, lastName, cardNumber, cvv, validThrough } =
+                card;
+              return (
+                <CreditCard
+                  firstName={firstName}
+                  lastName={lastName}
+                  cardNumber={cardNumber}
+                  cvv={cvv}
+                  validThru={validThrough}
+                  key={card.id}
+                  isFrozen={isFrozen}
+                />
+              );
             })}
           </Slider>
-         
         </TopContainer>
         <BottomContainer>
-          <ActionBar handleDelete={handleDelete} handleFrozen={handleFrozen} isFrozen={isFrozen}/>
+          <ActionBar
+            handleDelete={handleDelete}
+            handleFrozen={handleFrozen}
+            isFrozen={isFrozen}
+          />
           <Accordian title={"Card details"} icon={cardDetails}>
             <CardDetails
               firstName={firstName}
@@ -128,9 +159,16 @@ const CardPage = () => {
         </BottomContainer>
       </Container>
       <ModalContainer>
-      <ReactModal isOpen={isModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={handleModalToggle}>
-        <CreditCardForm handleModalToggle={handleModalToggle} submitCardData={updateCardData} />
-      </ReactModal>
+        <ReactModal
+          isOpen={isModalOpen}
+          shouldCloseOnOverlayClick={true}
+          onRequestClose={handleModalToggle}
+        >
+          <CreditCardForm
+            handleModalToggle={handleModalToggle}
+            submitCardData={updateCardData}
+          />
+        </ReactModal>
       </ModalContainer>
     </>
   );
